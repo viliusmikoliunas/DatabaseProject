@@ -20,7 +20,7 @@ namespace DatabaseProject
             StartupForm startup = new StartupForm();
             DriverForm driverForm = new DriverForm();
             startup.FormBorderStyle = FormBorderStyle.FixedDialog;
-            Application.Run(driverForm);
+            Application.Run(startup);
         }
     }
 }

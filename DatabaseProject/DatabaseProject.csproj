@@ -69,6 +69,12 @@
     <Compile Include="AddVehicleForm.Designer.cs">
       <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ClientForm.Designer.cs">
+      <DependentUpon>ClientForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectToDB.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
@@ -128,6 +134,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AddVehicleForm.resx">
       <DependentUpon>AddVehicleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClientForm.resx">
+      <DependentUpon>ClientForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverForm.resx">
       <DependentUpon>DriverForm.cs</DependentUpon>

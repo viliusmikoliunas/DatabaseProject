@@ -28,5 +28,17 @@ namespace DatabaseProject
             VehiclesForm vehiclesForm = new VehiclesForm();
             vehiclesForm.ShowDialog();
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DriverForm driverForm = new DriverForm();
+            driverForm.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ClientForm cf = new ClientForm();
+            cf.ShowDialog();
+        }
     }
 }

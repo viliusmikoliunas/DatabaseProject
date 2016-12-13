@@ -10,11 +10,11 @@ namespace DatabaseProject
 {
     class ConnectToDB
     {
-        public DataTable GetTableFromDB(string tableName)
+        public DataTable GetTableFromDB(string tableName, string command = "Select * from")
         {
             string connectionStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             SqlConnection connection = new SqlConnection(connectionStr);
-            SqlDataAdapter adapter = new SqlDataAdapter("Select * from " + tableName, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command +" "+ tableName, connection);
             DataTable table;
             using (DataSet set = new DataSet("TempSet"))
             {
