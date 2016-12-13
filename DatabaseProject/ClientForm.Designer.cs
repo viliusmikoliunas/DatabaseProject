@@ -52,7 +52,7 @@
             this.WarehouseGridView.Name = "WarehouseGridView";
             this.WarehouseGridView.RowHeadersVisible = false;
             this.WarehouseGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.WarehouseGridView.Size = new System.Drawing.Size(313, 128);
+            this.WarehouseGridView.Size = new System.Drawing.Size(305, 128);
             this.WarehouseGridView.TabIndex = 0;
             // 
             // ChooseFridgeButton
@@ -67,7 +67,7 @@
             // 
             // OrderButton
             // 
-            this.OrderButton.Location = new System.Drawing.Point(403, 160);
+            this.OrderButton.Location = new System.Drawing.Point(360, 160);
             this.OrderButton.Name = "OrderButton";
             this.OrderButton.Size = new System.Drawing.Size(79, 23);
             this.OrderButton.TabIndex = 2;
@@ -76,9 +76,16 @@
             // 
             // CartGridView
             // 
+            this.CartGridView.AllowUserToAddRows = false;
+            this.CartGridView.AllowUserToDeleteRows = false;
+            this.CartGridView.AllowUserToResizeColumns = false;
+            this.CartGridView.AllowUserToResizeRows = false;
             this.CartGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.CartGridView.Location = new System.Drawing.Point(403, 26);
+            this.CartGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.CartGridView.Location = new System.Drawing.Point(360, 26);
             this.CartGridView.Name = "CartGridView";
+            this.CartGridView.RowHeadersVisible = false;
+            this.CartGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.CartGridView.Size = new System.Drawing.Size(306, 128);
             this.CartGridView.TabIndex = 3;
             // 
@@ -94,7 +101,7 @@
             // CartLabel
             // 
             this.CartLabel.AutoSize = true;
-            this.CartLabel.Location = new System.Drawing.Point(400, 9);
+            this.CartLabel.Location = new System.Drawing.Point(357, 9);
             this.CartLabel.Name = "CartLabel";
             this.CartLabel.Size = new System.Drawing.Size(26, 13);
             this.CartLabel.TabIndex = 5;
@@ -102,18 +109,19 @@
             // 
             // RemoveFromCartButton
             // 
-            this.RemoveFromCartButton.Location = new System.Drawing.Point(604, 160);
+            this.RemoveFromCartButton.Location = new System.Drawing.Point(561, 160);
             this.RemoveFromCartButton.Name = "RemoveFromCartButton";
             this.RemoveFromCartButton.Size = new System.Drawing.Size(105, 23);
             this.RemoveFromCartButton.TabIndex = 6;
             this.RemoveFromCartButton.Text = "Remove Selected";
             this.RemoveFromCartButton.UseVisualStyleBackColor = true;
+            this.RemoveFromCartButton.Click += new System.EventHandler(this.RemoveFromCartButton_Click);
             // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(721, 191);
+            this.ClientSize = new System.Drawing.Size(679, 191);
             this.Controls.Add(this.RemoveFromCartButton);
             this.Controls.Add(this.CartLabel);
             this.Controls.Add(this.AvaivableFridgesLabel);
