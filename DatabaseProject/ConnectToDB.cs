@@ -50,9 +50,8 @@ namespace DatabaseProject
                 new DataColumn("Client",typeof(string)), 
                 new DataColumn("Address",typeof(string)),
                 new DataColumn("DeliverUntil",typeof(DateTime)),
-                new DataColumn("IsDelivered",typeof(bool))
+                new DataColumn("Delivered",typeof(string))
             });
-            for (int i = 0; i < newTable.Columns.Count - 1; i++) newTable.Columns[i].ReadOnly = true;
             using (var conn = new FridgeBussinessEntities2())
             {
                 DataRow newnew = newTable.NewRow();
@@ -60,11 +59,11 @@ namespace DatabaseProject
                     from dd in conn.Driver
                     join ff in conn.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
                     select new {drv = dd.FirstName+" "+dd.LastName, FridgeId = ff.FridgeID,
-                        cust = ff.Customer, until = ff.DeliverUntil, delivered = (ff.DeliveredAt!=null)}
+                        cust = ff.Customer, until = ff.DeliverUntil, delivered = ff.DeliveredAt}
                     ;
                 foreach (var car in driver)
                 {
-                    if (car.drv.Equals("Vasia Jonavicius")&&!car.delivered)
+                    if (car.drv.Equals("Vasia Jonavicius")&&car.delivered==null)
                     {
                         DataRow newRow = newTable.NewRow();
                         newRow[0] = car.FridgeId;
