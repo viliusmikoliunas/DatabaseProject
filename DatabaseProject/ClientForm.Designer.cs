@@ -63,6 +63,7 @@
             this.ChooseFridgeButton.TabIndex = 1;
             this.ChooseFridgeButton.Text = "Order Selected";
             this.ChooseFridgeButton.UseVisualStyleBackColor = true;
+            this.ChooseFridgeButton.Click += new System.EventHandler(this.ChooseFridgeButton_Click);
             // 
             // OrderButton
             // 
