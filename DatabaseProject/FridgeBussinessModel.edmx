@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FridgeBussinessModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerName" />
+          </Key>
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contact" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="PersonalCode" />
+          </Key>
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PersonalCode" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="VehicleLicenceNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Fridge">
+          <Key>
+            <PropertyRef Name="FridgeID" />
+          </Key>
+          <Property Name="FridgeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mass" Type="int" Nullable="false" />
+          <Property Name="Volume" Type="decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ManufacturedOn" Type="date" Nullable="false" />
+          <Property Name="Customer" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeliveringDriverPersonalCode" Type="char" MaxLength="11" />
+          <Property Name="DeliverUntil" Type="date" />
+          <Property Name="DeliveredAt" Type="date" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="LicenceNumber" />
+          </Key>
+          <Property Name="LicenceNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="OperationalFrom" Type="date" Nullable="false" />
+          <Property Name="TrailerVolume" Type="decimal" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="MaximumLoad" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Driver_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Driver" Type="Self.Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="LicenceNumber" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="VehicleLicenceNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fridge_ToCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Fridge" Type="Self.Fridge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerName" />
+            </Principal>
+            <Dependent Role="Fridge">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fridge_ToDriver">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
+          <End Role="Fridge" Type="Self.Fridge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="PersonalCode" />
+            </Principal>
+            <Dependent Role="Fridge">
+              <PropertyRef Name="DeliveringDriverPersonalCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FridgeBussinessModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fridge" EntityType="Self.Fridge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Driver_Vehicle" Association="Self.FK_Driver_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Driver" EntitySet="Driver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fridge_ToCustomer" Association="Self.FK_Fridge_ToCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Fridge" EntitySet="Fridge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fridge_ToDriver" Association="Self.FK_Fridge_ToDriver">
+            <End Role="Driver" EntitySet="Driver" />
+            <End Role="Fridge" EntitySet="Fridge" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FridgeBussinessModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerName" />
+          </Key>
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Fridge" Relationship="Self.FK_Fridge_ToCustomer" FromRole="Customer" ToRole="Fridge" />
+        </EntityType>
+        <EntityType Name="Driver">
+          <Key>
+            <PropertyRef Name="PersonalCode" />
+          </Key>
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PersonalCode" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="VehicleLicenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Driver_Vehicle" FromRole="Driver" ToRole="Vehicle" />
+          <NavigationProperty Name="Fridge" Relationship="Self.FK_Fridge_ToDriver" FromRole="Driver" ToRole="Fridge" />
+        </EntityType>
+        <EntityType Name="Fridge">
+          <Key>
+            <PropertyRef Name="FridgeID" />
+          </Key>
+          <Property Name="FridgeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mass" Type="Int32" Nullable="false" />
+          <Property Name="Volume" Type="Decimal" Precision="18" Scale="3" Nullable="false" />
+          <Property Name="ManufacturedOn" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Customer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeliveringDriverPersonalCode" Type="String" MaxLength="11" FixedLength="true" Unicode="false" />
+          <Property Name="DeliverUntil" Type="DateTime" Precision="0" />
+          <Property Name="DeliveredAt" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Customer1" Relationship="Self.FK_Fridge_ToCustomer" FromRole="Fridge" ToRole="Customer" />
+          <NavigationProperty Name="Driver" Relationship="Self.FK_Fridge_ToDriver" FromRole="Fridge" ToRole="Driver" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="LicenceNumber" />
+          </Key>
+          <Property Name="LicenceNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OperationalFrom" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TrailerVolume" Type="Decimal" Precision="18" Scale="1" Nullable="false" />
+          <Property Name="MaximumLoad" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Driver" Relationship="Self.FK_Driver_Vehicle" FromRole="Vehicle" ToRole="Driver" />
+        </EntityType>
+        <Association Name="FK_Fridge_ToCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Fridge" Type="Self.Fridge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerName" />
+            </Principal>
+            <Dependent Role="Fridge">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Driver_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Driver" Type="Self.Driver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="LicenceNumber" />
+            </Principal>
+            <Dependent Role="Driver">
+              <PropertyRef Name="VehicleLicenceNumber" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Fridge_ToDriver">
+          <End Role="Driver" Type="Self.Driver" Multiplicity="0..1" />
+          <End Role="Fridge" Type="Self.Fridge" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Driver">
+              <PropertyRef Name="PersonalCode" />
+            </Principal>
+            <Dependent Role="Fridge">
+              <PropertyRef Name="DeliveringDriverPersonalCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FridgeBussinessEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customer" EntityType="Self.Customer" />
+          <EntitySet Name="Driver" EntityType="Self.Driver" />
+          <EntitySet Name="Fridge" EntityType="Self.Fridge" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" />
+          <AssociationSet Name="FK_Fridge_ToCustomer" Association="Self.FK_Fridge_ToCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Fridge" EntitySet="Fridge" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Driver_Vehicle" Association="Self.FK_Driver_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Driver" EntitySet="Driver" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Fridge_ToDriver" Association="Self.FK_Fridge_ToDriver">
+            <End Role="Driver" EntitySet="Driver" />
+            <End Role="Fridge" EntitySet="Fridge" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FridgeBussinessModelStoreContainer" CdmEntityContainer="FridgeBussinessEntities2">
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="FridgeBussinessModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Driver">
+            <EntityTypeMapping TypeName="FridgeBussinessModel.Driver">
+              <MappingFragment StoreEntitySet="Driver">
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="PersonalCode" ColumnName="PersonalCode" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="VehicleLicenceNumber" ColumnName="VehicleLicenceNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fridge">
+            <EntityTypeMapping TypeName="FridgeBussinessModel.Fridge">
+              <MappingFragment StoreEntitySet="Fridge">
+                <ScalarProperty Name="FridgeID" ColumnName="FridgeID" />
+                <ScalarProperty Name="Mass" ColumnName="Mass" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="ManufacturedOn" ColumnName="ManufacturedOn" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="DeliveringDriverPersonalCode" ColumnName="DeliveringDriverPersonalCode" />
+                <ScalarProperty Name="DeliverUntil" ColumnName="DeliverUntil" />
+                <ScalarProperty Name="DeliveredAt" ColumnName="DeliveredAt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicle">
+            <EntityTypeMapping TypeName="FridgeBussinessModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="LicenceNumber" ColumnName="LicenceNumber" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="OperationalFrom" ColumnName="OperationalFrom" />
+                <ScalarProperty Name="TrailerVolume" ColumnName="TrailerVolume" />
+                <ScalarProperty Name="MaximumLoad" ColumnName="MaximumLoad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
