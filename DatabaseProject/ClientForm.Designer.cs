@@ -73,6 +73,7 @@
             this.OrderButton.TabIndex = 2;
             this.OrderButton.Text = "Order Custom";
             this.OrderButton.UseVisualStyleBackColor = true;
+            this.OrderButton.Click += new System.EventHandler(this.OrderButton_Click);
             // 
             // CartGridView
             // 

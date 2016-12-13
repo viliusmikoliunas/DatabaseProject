@@ -71,5 +71,10 @@ namespace DatabaseProject
                 table.Rows.Add(newRow);
             }
         }
+
+        private void OrderButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -79,6 +79,12 @@
     <Compile Include="Customer.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomOrderBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CustomOrderBox.Designer.cs">
+      <DependentUpon>CustomOrderBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Driver.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
     </Compile>
@@ -137,6 +143,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientForm.resx">
       <DependentUpon>ClientForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CustomOrderBox.resx">
+      <DependentUpon>CustomOrderBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverForm.resx">
       <DependentUpon>DriverForm.cs</DependentUpon>
