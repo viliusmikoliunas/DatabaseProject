@@ -90,7 +90,6 @@ namespace DatabaseProject
             using (var conn = new FridgeBussinessEntities2())
             {
                 DateOperations dop = new DateOperations();
-                //string name = DriverBox.Text.Substring(0, DriverBox.Text.IndexOf(' '));
                 Fridge newFridge = new Fridge
                 {
                     FridgeID = fridgeID != -1 ? fridgeID : -1,
@@ -112,10 +111,7 @@ namespace DatabaseProject
                         conn.Fridge.Add(newFridge);
                         conn.SaveChanges();
                     }
-                    catch (DataException ex)
-                    {
-                        MessageBox.Show(ex.ToString());
-                    }
+                    catch (DataException ex) { MessageBox.Show(ex.ToString());}
                 }
                 else
                     try
@@ -125,10 +121,7 @@ namespace DatabaseProject
                         conn.Fridge.Add(newFridge);
                         conn.SaveChanges();
                     }
-                    catch (DataException ex)
-                    {
-                        MessageBox.Show(ex.ToString());
-                    }
+                    catch (DataException ex) { MessageBox.Show(ex.ToString()); }
             }
             Close();
         }

@@ -111,7 +111,7 @@
             // 
             // RemoveFromCartButton
             // 
-            this.RemoveFromCartButton.Location = new System.Drawing.Point(449, 160);
+            this.RemoveFromCartButton.Location = new System.Drawing.Point(409, 160);
             this.RemoveFromCartButton.Name = "RemoveFromCartButton";
             this.RemoveFromCartButton.Size = new System.Drawing.Size(105, 23);
             this.RemoveFromCartButton.TabIndex = 6;
@@ -127,6 +127,7 @@
             this.PlaceOrderButton.TabIndex = 7;
             this.PlaceOrderButton.Text = "Place Order";
             this.PlaceOrderButton.UseVisualStyleBackColor = true;
+            this.PlaceOrderButton.Click += new System.EventHandler(this.PlaceOrderButton_Click);
             // 
             // ClientForm
             // 

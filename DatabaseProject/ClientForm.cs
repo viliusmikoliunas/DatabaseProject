@@ -14,15 +14,17 @@ namespace DatabaseProject
     {
         DataTable shoppingCartTable = new DataTable();
         DataTable warehouseTable = new DataTable();
-        public ClientForm()
+        private string currentClient;
+        public ClientForm(string currentClient)
         {
             InitializeComponent();
+            this.currentClient = currentClient;
         }
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
             ConnectToDB cdb = new ConnectToDB();
-            warehouseTable = cdb.GetTableFromDB("Fridge", "Select Volume,Mass,ManufacturedOn,FridgeId from");
+            warehouseTable = cdb.GetTableFromDB("Fridge where Customer is null", "Select Volume,Mass,ManufacturedOn,FridgeId from");
             WarehouseGridView.DataSource = warehouseTable;
             WarehouseGridView.Columns[WarehouseGridView.ColumnCount-1].Visible = false;
 
@@ -52,7 +54,10 @@ namespace DatabaseProject
             {
                 insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
             }
-            catch (NullReferenceException) { }
+            catch (InvalidOperationException)
+            {
+                //delete line
+            }
         }
 
         private void insertNewRow(DataGridView tableView , DataTable test, DataTable table)
@@ -88,6 +93,42 @@ namespace DatabaseProject
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+        }
+
+        private void PlaceOrderButton_Click(object sender, EventArgs e)
+        {
+            using (var connection = new FridgeBussinessEntities2())
+            {
+                foreach (DataRow row in shoppingCartTable.Rows)
+                {
+                    //Fridge newFridge = new Fridge
+                    //{
+                    //    FridgeID = (int)row["FridgeId"] >0 ? (int)row["FridgeId"] : -1,
+                    //    Volume = (decimal)row["Volume"],
+                    //    Mass = 10,
+                    //    //Mass = row["Mass"]!=null ? (int)row["Mass"] : new int(),
+                    //    //ManufacturedOn = row["ManufacturedOn"]!=null ? (DateTime)row["Mass"] : new DateTime()
+                    //    Customer = currentClient
+                    //};
+//                    
+                    if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
+                    {
+                        int frid = (int)row["FridgeId"];
+                        //connection.Fridge.Single(f => f.FridgeID == frid).Customer = currentClient;
+                        //connection.SaveChanges();
+                    }
+                    else
+                    {
+                        connection.Fridge.Add(new Fridge
+                        {
+                            Volume = (decimal)row["Volume"],
+                            Customer = currentClient
+                        });
+                    }
+
+
+                }
+            }
         }
     }
 }

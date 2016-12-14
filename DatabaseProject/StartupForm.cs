@@ -32,7 +32,7 @@ namespace DatabaseProject
 
         private void button4_Click(object sender, EventArgs e)
         {
-            ClientForm cf = new ClientForm();
+            ClientForm cf = new ClientForm(ChooseClientBox.Text);
             cf.ShowDialog();
         }
 
