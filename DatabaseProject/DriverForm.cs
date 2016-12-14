@@ -14,16 +14,17 @@ namespace DatabaseProject
     {
         private DataTable driverTable;
         private readonly List<int> deliveredFridgesTodayIdList = new List<int>();
-        //private bool changesMade = false;
-        public DriverForm()
+        private string driverFullName;
+        public DriverForm(string currentDriver="")
         {
             InitializeComponent();
+            driverFullName = currentDriver;
         }
 
         private void DriverForm_Load(object sender, EventArgs e)
         {
             DriverTable getTable = new DriverTable();
-            driverTable = getTable.GenerateDataTableForDriver();
+            driverTable = getTable.GenerateDataTableForDriver(driverFullName);
             driverTable = getTable.FillDataTable(driverTable);
 
             driverGridView.DataSource = driverTable;
@@ -51,7 +52,7 @@ namespace DatabaseProject
                     using (var connection = new FridgeBussinessEntities2())
                     {
                         foreach (var fr in deliveredFridgesTodayIdList) connection.Fridge.Single(f => f.FridgeID == fr).DeliveredAt = DateTime.Today;
-                        //connection.SaveChanges();
+                        connection.SaveChanges();
                     }
                 }
                 else if (result == DialogResult.Cancel)

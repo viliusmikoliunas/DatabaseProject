@@ -41,7 +41,7 @@ namespace DatabaseProject
 
     class DriverTable
     {
-        public DataTable GenerateDataTableForDriver()
+        public DataTable GenerateDataTableForDriver(string driverFullName)
         {
             DataTable newTable = new DataTable();
             newTable.Columns.AddRange(new []
@@ -63,7 +63,7 @@ namespace DatabaseProject
                     ;
                 foreach (var car in driver)
                 {
-                    if (car.drv.Equals("Vasia Jonavicius")&&car.delivered==null)
+                    if (car.drv.Equals(driverFullName) &&car.delivered==null)
                     {
                         DataRow newRow = newTable.NewRow();
                         newRow[0] = car.FridgeId;

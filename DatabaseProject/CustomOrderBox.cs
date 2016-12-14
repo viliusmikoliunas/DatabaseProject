@@ -26,7 +26,7 @@ namespace DatabaseProject
 
         private void OrderButton_Click(object sender, EventArgs e)
         {
-            parentForm.customVolumeValue = textBox1.Text;
+            parentForm.CustomVolumeValue = textBox1.Text;
             Close();
         }
     }

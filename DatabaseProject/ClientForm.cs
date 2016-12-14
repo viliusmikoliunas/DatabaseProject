@@ -32,7 +32,6 @@ namespace DatabaseProject
                 new DataColumn("Mass",typeof(int)),
                 new DataColumn("ManufacturedOn",typeof(DateTime)),
                 new DataColumn("FridgeId",typeof(int)), 
-                //money maybe??   
             });
             CartGridView.DataSource = shoppingCartTable;
             CartGridView.Columns[CartGridView.ColumnCount - 1].Visible = false;
@@ -78,14 +77,14 @@ namespace DatabaseProject
         {
             CustomOrderBox cust = new CustomOrderBox(this);
             cust.ShowDialog();
-            if (customVolumeValue != null)
+            if (CustomVolumeValue != null)
             {
                 DataRow newRow = shoppingCartTable.NewRow();
-                newRow["Volume"] = Decimal.Parse(customVolumeValue);
+                newRow["Volume"] = Decimal.Parse(CustomVolumeValue);
                 shoppingCartTable.Rows.Add(newRow);
             }
         }
-        public string customVolumeValue { get;set;}
+        public string CustomVolumeValue { get;set;}
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {

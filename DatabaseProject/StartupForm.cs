@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,15 +24,9 @@ namespace DatabaseProject
             fridgeForm.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            VehiclesForm vehiclesForm = new VehiclesForm();
-            vehiclesForm.ShowDialog();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            DriverForm driverForm = new DriverForm();
+            DriverForm driverForm = new DriverForm(ChooseDriverBox.Text);
             driverForm.ShowDialog();
         }
 
@@ -39,6 +34,15 @@ namespace DatabaseProject
         {
             ClientForm cf = new ClientForm();
             cf.ShowDialog();
+        }
+
+        private void StartupForm_Load(object sender, EventArgs e)
+        {
+            using (var connection = new FridgeBussinessEntities2())
+            {
+                ChooseDriverBox.DataSource = connection.Driver.Select(d => d.FirstName+" "+d.LastName).ToList();
+                ChooseClientBox.DataSource = connection.Customer.Select(d => d.CustomerName).ToList();
+            }
         }
     }
 }

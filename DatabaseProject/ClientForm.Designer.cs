@@ -35,6 +35,7 @@
             this.AvaivableFridgesLabel = new System.Windows.Forms.Label();
             this.CartLabel = new System.Windows.Forms.Label();
             this.RemoveFromCartButton = new System.Windows.Forms.Button();
+            this.PlaceOrderButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.WarehouseGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CartGridView)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +68,7 @@
             // 
             // OrderButton
             // 
-            this.OrderButton.Location = new System.Drawing.Point(360, 160);
+            this.OrderButton.Location = new System.Drawing.Point(238, 160);
             this.OrderButton.Name = "OrderButton";
             this.OrderButton.Size = new System.Drawing.Size(79, 23);
             this.OrderButton.TabIndex = 2;
@@ -110,7 +111,7 @@
             // 
             // RemoveFromCartButton
             // 
-            this.RemoveFromCartButton.Location = new System.Drawing.Point(561, 160);
+            this.RemoveFromCartButton.Location = new System.Drawing.Point(449, 160);
             this.RemoveFromCartButton.Name = "RemoveFromCartButton";
             this.RemoveFromCartButton.Size = new System.Drawing.Size(105, 23);
             this.RemoveFromCartButton.TabIndex = 6;
@@ -118,11 +119,21 @@
             this.RemoveFromCartButton.UseVisualStyleBackColor = true;
             this.RemoveFromCartButton.Click += new System.EventHandler(this.RemoveFromCartButton_Click);
             // 
+            // PlaceOrderButton
+            // 
+            this.PlaceOrderButton.Location = new System.Drawing.Point(591, 160);
+            this.PlaceOrderButton.Name = "PlaceOrderButton";
+            this.PlaceOrderButton.Size = new System.Drawing.Size(75, 23);
+            this.PlaceOrderButton.TabIndex = 7;
+            this.PlaceOrderButton.Text = "Place Order";
+            this.PlaceOrderButton.UseVisualStyleBackColor = true;
+            // 
             // ClientForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(679, 191);
+            this.Controls.Add(this.PlaceOrderButton);
             this.Controls.Add(this.RemoveFromCartButton);
             this.Controls.Add(this.CartLabel);
             this.Controls.Add(this.AvaivableFridgesLabel);
@@ -150,5 +161,6 @@
         private System.Windows.Forms.Label AvaivableFridgesLabel;
         private System.Windows.Forms.Label CartLabel;
         private System.Windows.Forms.Button RemoveFromCartButton;
+        private System.Windows.Forms.Button PlaceOrderButton;
     }
 }
