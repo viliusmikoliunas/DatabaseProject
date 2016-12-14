@@ -132,6 +132,7 @@
             this.Controls.Add(this.WarehouseGridView);
             this.Name = "ClientForm";
             this.Text = "ClientForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientForm_FormClosing);
             this.Load += new System.EventHandler(this.ClientForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.WarehouseGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CartGridView)).EndInit();

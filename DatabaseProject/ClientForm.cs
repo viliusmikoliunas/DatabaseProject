@@ -42,7 +42,7 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRow(WarehouseGridView, shoppingCartTable);
+                insertNewRow(WarehouseGridView, warehouseTable, shoppingCartTable);
             }
             catch (NullReferenceException) { }
         }
@@ -51,19 +51,21 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRow(CartGridView, warehouseTable);
+                insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
             }
             catch (NullReferenceException) { }
         }
 
-        private void insertNewRow(DataGridView tableView , DataTable table)
+        private void insertNewRow(DataGridView tableView , DataTable test, DataTable table)
         {
-            int currentFridgeId = (int)tableView.CurrentRow.Cells["FridgeId"].Value;
-            tableView.Rows.Remove(tableView.CurrentRow);
+            string currentFridgeId = tableView.CurrentRow.Cells["FridgeId"].Value.ToString();
+
+            var row = test.AsEnumerable().Single(r => r["FridgeId"].ToString() == currentFridgeId);
+            test.Rows.Remove(row);
             DataRow newRow = table.NewRow();
             using (var connenction = new FridgeBussinessEntities2())
             {
-                Fridge current = connenction.Fridge.Single(f => f.FridgeID == currentFridgeId);
+                Fridge current = connenction.Fridge.Single(f => f.FridgeID.ToString() == currentFridgeId);
                 newRow["Volume"] = current.Volume;
                 newRow["Mass"] = current.Mass;
                 newRow["ManufacturedOn"] = current.ManufacturedOn;
@@ -74,7 +76,19 @@ namespace DatabaseProject
 
         private void OrderButton_Click(object sender, EventArgs e)
         {
+            CustomOrderBox cust = new CustomOrderBox(this);
+            cust.ShowDialog();
+            if (customVolumeValue != null)
+            {
+                DataRow newRow = shoppingCartTable.NewRow();
+                newRow["Volume"] = Decimal.Parse(customVolumeValue);
+                shoppingCartTable.Rows.Add(newRow);
+            }
+        }
+        public string customVolumeValue { get;set;}
 
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
         }
     }
 }

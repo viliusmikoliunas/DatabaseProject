@@ -57,6 +57,7 @@
             this.OrderButton.TabIndex = 2;
             this.OrderButton.Text = "Place Order";
             this.OrderButton.UseVisualStyleBackColor = true;
+            this.OrderButton.Click += new System.EventHandler(this.OrderButton_Click);
             // 
             // CustomOrderBox
             // 
@@ -68,6 +69,7 @@
             this.Controls.Add(this.textBox1);
             this.Name = "CustomOrderBox";
             this.Text = "Custom Order";
+            this.Load += new System.EventHandler(this.CustomOrderBox_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

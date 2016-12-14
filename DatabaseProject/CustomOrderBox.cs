@@ -12,9 +12,22 @@ namespace DatabaseProject
 {
     public partial class CustomOrderBox : Form
     {
-        public CustomOrderBox()
+        private ClientForm parentForm;
+        public CustomOrderBox(ClientForm form)
         {
             InitializeComponent();
+            parentForm = form;
+        }
+
+        private void CustomOrderBox_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OrderButton_Click(object sender, EventArgs e)
+        {
+            parentForm.customVolumeValue = textBox1.Text;
+            Close();
         }
     }
 }
