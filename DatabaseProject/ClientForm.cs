@@ -54,9 +54,13 @@ namespace DatabaseProject
             {
                 insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
             }
+            catch (NullReferenceException)
+            {
+                
+            }
             catch (InvalidOperationException)
             {
-                //delete line
+                //CartGridView.Rows.Remove(CartGridView.CurrentRow);
             }
         }
 
@@ -101,21 +105,14 @@ namespace DatabaseProject
             {
                 foreach (DataRow row in shoppingCartTable.Rows)
                 {
-                    //Fridge newFridge = new Fridge
-                    //{
-                    //    FridgeID = (int)row["FridgeId"] >0 ? (int)row["FridgeId"] : -1,
-                    //    Volume = (decimal)row["Volume"],
-                    //    Mass = 10,
-                    //    //Mass = row["Mass"]!=null ? (int)row["Mass"] : new int(),
-                    //    //ManufacturedOn = row["ManufacturedOn"]!=null ? (DateTime)row["Mass"] : new DateTime()
-                    //    Customer = currentClient
-                    //};
-//                    
                     if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
                     {
                         int frid = (int)row["FridgeId"];
-                        //connection.Fridge.Single(f => f.FridgeID == frid).Customer = currentClient;
-                        //connection.SaveChanges();
+                        Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
+                        connection.Fridge.Remove(toReplace);
+                        toReplace.Customer = currentClient;
+                        toReplace.DeliverUntil = DateTime.Today.AddDays(14);
+                        connection.Fridge.Add(toReplace);
                     }
                     else
                     {
@@ -125,7 +122,9 @@ namespace DatabaseProject
                             Customer = currentClient
                         });
                     }
-
+                    connection.SaveChanges();
+                    MessageBox.Show("Order successful");
+                    Close();
 
                 }
             }
