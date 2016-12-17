@@ -21,17 +21,16 @@ namespace DatabaseProject
                 @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             string command = "Select " + selection + " from " + location;
             command = string.IsNullOrEmpty(condition) ? command : command + " " + condition;
-            SqlConnection connection = new SqlConnection(connectionStr);
-            SqlDataAdapter adapter = new SqlDataAdapter(command, connection);
             DataTable table;
-            using (DataSet set = new DataSet("TempSet"))
+
+            using (var connection = new SqlConnection(connectionStr))
+            using (var adapter = new SqlDataAdapter(command, connection))
+            using (var set = new DataSet("TempSet"))
             {
                 adapter.FillSchema(set, SchemaType.Source, location);
                 adapter.Fill(set, location);
                 table = set.Tables[location];
             }
-            connection.Close();
-            connection.Dispose();
             return table;
         }
     }
@@ -40,47 +39,58 @@ namespace DatabaseProject
     {
         public DateTime DateParsing(string yy, string mm, string dd)
         {
-            int year = Int32.Parse(yy);
-            int month = Int32.Parse(mm);
-            int day = Int32.Parse(dd);
+            int year = int.Parse(yy);
+            int month = int.Parse(mm);
+            int day = int.Parse(dd);
             return new DateTime(year, month, day);
         }
     }
 
     class DriverTable
     {
-        public DataTable GenerateDataTableForDriver(string driverFullName)
+        public DataTable GetDriverTable(string driverFullName)
         {
-            DataTable newTable = new DataTable();
-            newTable.Columns.AddRange(new []
+            DataTable newTable = GenerateEmptyDriverTable();
+            using (var connection = new FridgeBussinessEntities2())
             {
-                new DataColumn("FridgeId",typeof(int)),
-                new DataColumn("Client",typeof(string)), 
-                new DataColumn("Address",typeof(string)),
-                new DataColumn("DeliverUntil",typeof(DateTime)),
-                new DataColumn("Delivered",typeof(string))
-            });
-            using (var conn = new FridgeBussinessEntities2())
-            {
-                var driver =
-                    from dd in conn.Driver
-                    join ff in conn.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
-                    select new {drv = dd.FirstName+" "+dd.LastName, FridgeId = ff.FridgeID,
-                        cust = ff.Customer, until = ff.DeliverUntil, delivered = ff.DeliveredAt}
-                    ;
-                foreach (var car in driver)
+                var driverTable =
+                    from dd in connection.Driver
+                    join ff in connection.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
+                    select new
+                    {
+                        driver = dd.FirstName + " " + dd.LastName,
+                        FridgeId = ff.FridgeID,
+                        cust = ff.Customer,
+                        until = ff.DeliverUntil,
+                        delivered = ff.DeliveredAt
+                    };
+                foreach (var car in driverTable)
                 {
-                    if (car.drv.Equals(driverFullName) &&car.delivered==null)
+                    if (car.driver.Equals(driverFullName) &&car.delivered==null)
                     {
                         DataRow newRow = newTable.NewRow();
-                        newRow[0] = car.FridgeId;
-                        newRow[1] = car.cust;
-                        newRow[2] = conn.Customer.FirstOrDefault(c => c.CustomerName == car.cust).Address;
-                        newRow[3] = car.until;
+                        newRow["FridgeId"] = car.FridgeId;
+                        newRow["Client"] = car.cust;
+                        newRow["Address"] = connection.Customer.FirstOrDefault(c => c.CustomerName == car.cust).Address;
+                        newRow["DeliverUntil"] = car.until;
                         newTable.Rows.Add(newRow);
                     }
                 }
             }
+            return newTable;
+        }
+
+        private DataTable GenerateEmptyDriverTable()
+        {
+            DataTable newTable = new DataTable();
+            newTable.Columns.AddRange(new[]
+            {
+                new DataColumn("FridgeId",typeof(int)),
+                new DataColumn("Client",typeof(string)),
+                new DataColumn("Address",typeof(string)),
+                new DataColumn("DeliverUntil",typeof(DateTime)),
+                new DataColumn("Delivered",typeof(string))
+            });
             return newTable;
         }
     }

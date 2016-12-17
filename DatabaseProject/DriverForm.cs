@@ -24,7 +24,7 @@ namespace DatabaseProject
         private void DriverForm_Load(object sender, EventArgs e)
         {
             DriverTable getTable = new DriverTable();
-            driverTable = getTable.GenerateDataTableForDriver(driverFullName);
+            driverTable = getTable.GetDriverTable(driverFullName);
 
             driverGridView.DataSource = driverTable;
         }
