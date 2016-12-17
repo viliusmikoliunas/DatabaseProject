@@ -24,7 +24,7 @@ namespace DatabaseProject
         private void ClientForm_Load(object sender, EventArgs e)
         {
             ConnectToDB cdb = new ConnectToDB();
-            warehouseTable = cdb.GetTableFromDB("Fridge where Customer is null", "Select Volume,Mass,ManufacturedOn,FridgeId from");
+            warehouseTable = cdb.GetTableFromDB("Volume,Mass,ManufacturedOn,FridgeId", "Fridge", "where Customer is null");
             WarehouseGridView.DataSource = warehouseTable;
             WarehouseGridView.Columns[WarehouseGridView.ColumnCount-1].Visible = false;
 
@@ -101,33 +101,36 @@ namespace DatabaseProject
 
         private void PlaceOrderButton_Click(object sender, EventArgs e)
         {
-            using (var connection = new FridgeBussinessEntities2())
+            if (CartGridView.Rows.Count > 0)
             {
-                foreach (DataRow row in shoppingCartTable.Rows)
+                using (var connection = new FridgeBussinessEntities2())
                 {
-                    if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
+                    foreach (DataRow row in shoppingCartTable.Rows)
                     {
-                        int frid = (int)row["FridgeId"];
-                        Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
-                        connection.Fridge.Remove(toReplace);
-                        toReplace.Customer = currentClient;
-                        toReplace.DeliverUntil = DateTime.Today.AddDays(14);
-                        connection.Fridge.Add(toReplace);
-                    }
-                    else
-                    {
-                        connection.Fridge.Add(new Fridge
+                        if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
                         {
-                            Volume = (decimal)row["Volume"],
-                            Customer = currentClient
-                        });
+                            int frid = (int) row["FridgeId"];
+                            Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
+                            connection.Fridge.Remove(toReplace);
+                            toReplace.Customer = currentClient;
+                            toReplace.DeliverUntil = DateTime.Today.AddDays(14);
+                            connection.Fridge.Add(toReplace);
+                        }
+                        else
+                        {
+                            connection.Fridge.Add(new Fridge
+                            {
+                                Volume = (decimal) row["Volume"],
+                                Customer = currentClient
+                            });
+                        }
+                        connection.SaveChanges();
                     }
-                    connection.SaveChanges();
-                    MessageBox.Show("Order successful");
-                    Close();
-
                 }
+
             }
+            else MessageBox.Show("Order successful");
+            Close();
         }
     }
 }

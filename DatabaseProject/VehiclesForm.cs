@@ -25,7 +25,7 @@ namespace DatabaseProject
         public void VehiclesForm_Load(object sender, EventArgs e)
         {
             ConnectToDB db = new ConnectToDB();
-            DataTable table = db.GetTableFromDB("Vehicle");
+            DataTable table = db.GetTableFromDB("*","Vehicle");
 
             VehicleGridView.DataSource = table;
             //VehicleGridView.Columns.Add("Driver", "Driver");

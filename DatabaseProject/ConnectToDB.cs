@@ -8,19 +8,27 @@ using System.Data.SqlClient;
 
 namespace DatabaseProject
 {
+    /*
+     * fix warehouse table for warehouse purposes only
+       kiek laiko vairuotojas uztrunka nuvezti viena saldytuva
+     * 
+     */
     class ConnectToDB
     {
-        public DataTable GetTableFromDB(string tableName, string command = "Select * from")
+        public DataTable GetTableFromDB(string selection, string location, string condition = "")
         {
-            string connectionStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string connectionStr = 
+                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string command = "Select " + selection + " from " + location;
+            command = string.IsNullOrEmpty(condition) ? command : command + " " + condition;
             SqlConnection connection = new SqlConnection(connectionStr);
-            SqlDataAdapter adapter = new SqlDataAdapter(command +" "+ tableName, connection);
+            SqlDataAdapter adapter = new SqlDataAdapter(command, connection);
             DataTable table;
             using (DataSet set = new DataSet("TempSet"))
             {
-                adapter.FillSchema(set, SchemaType.Source, tableName);
-                adapter.Fill(set, tableName);
-                table = set.Tables[tableName];
+                adapter.FillSchema(set, SchemaType.Source, location);
+                adapter.Fill(set, location);
+                table = set.Tables[location];
             }
             connection.Close();
             connection.Dispose();
@@ -54,7 +62,6 @@ namespace DatabaseProject
             });
             using (var conn = new FridgeBussinessEntities2())
             {
-                DataRow newnew = newTable.NewRow();
                 var driver =
                     from dd in conn.Driver
                     join ff in conn.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
@@ -75,12 +82,6 @@ namespace DatabaseProject
                 }
             }
             return newTable;
-        }
-
-        public DataTable FillDataTable(DataTable table)
-        {
-
-            return table;
         }
     }
 }
