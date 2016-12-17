@@ -15,6 +15,8 @@ namespace DatabaseProject
         DataTable shoppingCartTable = new DataTable();
         DataTable warehouseTable = new DataTable();
         private string currentClient;
+
+        private const int OrderToDeliverDayCount = 14;
         public ClientForm(string currentClient)
         {
             InitializeComponent();
@@ -54,20 +56,13 @@ namespace DatabaseProject
             {
                 insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
             }
-            catch (NullReferenceException)
-            {
-                
-            }
-            catch (InvalidOperationException)
-            {
-                //CartGridView.Rows.Remove(CartGridView.CurrentRow);
-            }
+            catch (NullReferenceException) { }
+            catch (InvalidOperationException) { }
         }
 
         private void insertNewRow(DataGridView tableView , DataTable test, DataTable table)
         {
             string currentFridgeId = tableView.CurrentRow.Cells["FridgeId"].Value.ToString();
-
             var row = test.AsEnumerable().Single(r => r["FridgeId"].ToString() == currentFridgeId);
             test.Rows.Remove(row);
             DataRow newRow = table.NewRow();
@@ -89,7 +84,7 @@ namespace DatabaseProject
             if (CustomVolumeValue != null)
             {
                 DataRow newRow = shoppingCartTable.NewRow();
-                newRow["Volume"] = Decimal.Parse(CustomVolumeValue);
+                newRow["Volume"] = decimal.Parse(CustomVolumeValue);
                 shoppingCartTable.Rows.Add(newRow);
             }
         }
@@ -113,7 +108,7 @@ namespace DatabaseProject
                             Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
                             connection.Fridge.Remove(toReplace);
                             toReplace.Customer = currentClient;
-                            toReplace.DeliverUntil = DateTime.Today.AddDays(14);
+                            toReplace.DeliverUntil = DateTime.Today.AddDays(OrderToDeliverDayCount);
                             connection.Fridge.Add(toReplace);
                         }
                         else
@@ -127,10 +122,10 @@ namespace DatabaseProject
                         connection.SaveChanges();
                     }
                 }
-
+                MessageBox.Show("Order successful");
+                Close();
             }
-            else MessageBox.Show("Order successful");
-            Close();
+            else MessageBox.Show("The cart is empty");
         }
     }
 }

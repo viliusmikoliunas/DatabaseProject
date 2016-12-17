@@ -111,7 +111,7 @@
             // 
             // RemoveFromCartButton
             // 
-            this.RemoveFromCartButton.Location = new System.Drawing.Point(435, 160);
+            this.RemoveFromCartButton.Location = new System.Drawing.Point(444, 160);
             this.RemoveFromCartButton.Name = "RemoveFromCartButton";
             this.RemoveFromCartButton.Size = new System.Drawing.Size(105, 23);
             this.RemoveFromCartButton.TabIndex = 6;

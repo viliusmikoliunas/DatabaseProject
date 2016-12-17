@@ -66,7 +66,7 @@ namespace DatabaseProject
                     };
                 foreach (var car in driverTable)
                 {
-                    if (car.driver.Equals(driverFullName) &&car.delivered==null)
+                    if (car.driver.Equals(driverFullName) && car.delivered==null)
                     {
                         DataRow newRow = newTable.NewRow();
                         newRow["FridgeId"] = car.FridgeId;
