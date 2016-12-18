@@ -26,8 +26,18 @@ namespace DatabaseProject
 
         private void OrderButton_Click(object sender, EventArgs e)
         {
-            parentForm.CustomVolumeValue = textBox1.Text;
-            Close();
+            ValidationClass validate = new ValidationClass();
+            if (validate.ValidateVolume(textBox1.Text))
+            {
+                CorrectValue correct = new CorrectValue();
+                parentForm.CustomVolumeValue = correct.CorrectVolume(textBox1.Text);
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Wrong volume");
+                textBox1.Clear();
+            }
         }
     }
 }

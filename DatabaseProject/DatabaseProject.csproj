@@ -120,6 +120,7 @@
     <Compile Include="StartupForm.Designer.cs">
       <DependentUpon>StartupForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ValidationClass.cs" />
     <Compile Include="Vehicle.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
     </Compile>

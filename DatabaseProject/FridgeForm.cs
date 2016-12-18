@@ -25,11 +25,6 @@ namespace DatabaseProject
             FridgeGridView.DataSource = fridgeTable;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void AddFridgeButton_Click(object sender, EventArgs e)
         {
             AddFridgeForm addFr = new AddFridgeForm(this);

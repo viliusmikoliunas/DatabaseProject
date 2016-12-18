@@ -86,6 +86,7 @@ namespace DatabaseProject
                 DataRow newRow = shoppingCartTable.NewRow();
                 newRow["Volume"] = decimal.Parse(CustomVolumeValue);
                 shoppingCartTable.Rows.Add(newRow);
+                CustomVolumeValue = null;
             }
         }
         public string CustomVolumeValue { get;set;}
