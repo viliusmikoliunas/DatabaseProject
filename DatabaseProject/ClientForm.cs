@@ -45,7 +45,7 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRow(WarehouseGridView, warehouseTable, shoppingCartTable);
+                insertNewRowToCartTable(WarehouseGridView, warehouseTable, shoppingCartTable);
             }
             catch (NullReferenceException) { }
         }
@@ -54,13 +54,23 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
+                insertNewRowToCartTable(CartGridView, shoppingCartTable, warehouseTable);
             }
-            catch (NullReferenceException) { }
-            catch (InvalidOperationException) { }
+            catch (Exception ex)
+            {
+                if (ex is NullReferenceException || ex is InvalidOperationException)
+                {
+                    if (CartGridView.Rows.Count > 1)
+                    {
+                        string currentFrVolume = CartGridView.CurrentRow.Cells["Volume"].Value.ToString();
+                        shoppingCartTable.Rows.Remove(shoppingCartTable.AsEnumerable().First(r => r["Volume"].ToString() == currentFrVolume));
+                    }
+                    else shoppingCartTable.Clear();
+                }
+            }
         }
 
-        private void insertNewRow(DataGridView tableView , DataTable test, DataTable table)
+        private void insertNewRowToCartTable(DataGridView tableView , DataTable test, DataTable table)
         {
             string currentFridgeId = tableView.CurrentRow.Cells["FridgeId"].Value.ToString();
             var row = test.AsEnumerable().Single(r => r["FridgeId"].ToString() == currentFridgeId);
