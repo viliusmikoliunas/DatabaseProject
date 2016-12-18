@@ -13,7 +13,16 @@ namespace DatabaseProject
             if (volume.Contains('.')) volume = volume.Replace('.', ',');
             decimal temp;
             bool vol = decimal.TryParse(volume,out temp);
+            if (temp < 0) vol = false;
             return vol;
+        }
+
+        public bool ValidateMass(string massString)
+        {
+            int mass;
+            bool valid = int.TryParse(massString, out mass);
+            if (mass < 0) valid = false;
+            return valid;
         }
     }
 

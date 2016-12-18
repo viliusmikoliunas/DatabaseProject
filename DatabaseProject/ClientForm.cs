@@ -45,7 +45,7 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRowToCartTable(WarehouseGridView, warehouseTable, shoppingCartTable);
+                transferBetweenTables(WarehouseGridView, warehouseTable, shoppingCartTable);
             }
             catch (NullReferenceException) { }
         }
@@ -54,7 +54,7 @@ namespace DatabaseProject
         {
             try
             {
-                insertNewRowToCartTable(CartGridView, shoppingCartTable, warehouseTable);
+                transferBetweenTables(CartGridView, shoppingCartTable, warehouseTable);
             }
             catch (Exception ex)
             {
@@ -70,7 +70,7 @@ namespace DatabaseProject
             }
         }
 
-        private void insertNewRowToCartTable(DataGridView tableView , DataTable test, DataTable table)
+        private void transferBetweenTables(DataGridView tableView , DataTable test, DataTable table)
         {
             string currentFridgeId = tableView.CurrentRow.Cells["FridgeId"].Value.ToString();
             var row = test.AsEnumerable().Single(r => r["FridgeId"].ToString() == currentFridgeId);

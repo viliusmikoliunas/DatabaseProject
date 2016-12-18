@@ -76,59 +76,96 @@ namespace DatabaseProject
 
         private void DeliverMMBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            try
+            //try
             {
                 int currYear = short.Parse(DeliverYYBox.Text);
                 int currMonth = short.Parse(DeliverMMBox.Text);
                 DeliverDDBox.DataSource = Enumerable.Range(1, DateTime.DaysInMonth(currYear, currMonth)).ToList();
             }
-            catch { }
+            //catch { }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            using (var conn = new FridgeBussinessEntities2())
+            Fridge newFridge = new Fridge();
+            decimal volume;
+            int mass;
+            bool isValid = validateVolumeAndMass(out volume, out mass);
+            if (isValid)
             {
-                DateOperations dop = new DateOperations();
-                Fridge newFridge = new Fridge
-                {
-                    FridgeID = fridgeID != -1 ? fridgeID : -1,
-                    Mass = Int32.Parse(MassBox.Text),
-                    Volume = Decimal.Parse(VolumeBox.Text),
-                    ManufacturedOn =
-                         dop.DateParsing(ManufactureDateYYBox.Text, ManufactureDateMMBox.Text, ManufactureDateDDBox.Text),
-                    Customer = conn.Customer.FirstOrDefault(c=>c.CustomerName==CustomerBox.Text).CustomerName,
-                    DeliverUntil = 
-                        dop.DateParsing(DeliverYYBox.Text,DeliverMMBox.Text,DeliverDDBox.Text),
-                    DeliveringDriverPersonalCode = conn.Driver.First(d=>d.FirstName+" "+d.LastName==DriverBox.Text).PersonalCode,
-                    DeliveredAt = DateTime.Today.AddDays(10),
-                    Driver = conn.Driver.First(d => d.FirstName + " " + d.LastName == DriverBox.Text)
-                };
-                if (fridgeID == -1)
-                {
-                    try
-                    {
-                        conn.Fridge.Add(newFridge);
-                        conn.SaveChanges();
-                    }
-                    catch (DataException ex) { MessageBox.Show(ex.ToString());}
-                }
-                else
-                    try
-                    {
-                        Fridge temp = conn.Fridge.FirstOrDefault(f => f.FridgeID == newFridge.FridgeID);
-                        conn.Fridge.Remove(temp);
-                        conn.Fridge.Add(newFridge);
-                        conn.SaveChanges();
-                    }
-                    catch (DataException ex) { MessageBox.Show(ex.ToString()); }
+                newFridge = CreateFridge(volume, mass);
+                SaveFridge(newFridge);
+                Close();
             }
-            Close();
         }
 
         private void AddFridgeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             _owner.Form1_Load(null, null);
+        }
+
+        //----------
+
+        private bool validateVolumeAndMass(out decimal volume, out int mass)
+        {
+            ValidationClass valid = new ValidationClass();
+            CorrectValue correct = new CorrectValue();
+            volume = 0;
+            mass = 0;
+            if (valid.ValidateVolume(VolumeBox.Text)) volume = decimal.Parse(correct.CorrectVolume(VolumeBox.Text));
+            else
+            {
+                MessageBox.Show("Incorrect volume format");
+                return false;
+            }
+            if (valid.ValidateMass(MassBox.Text)) mass = int.Parse(MassBox.Text);
+            else
+            {
+                MessageBox.Show("Incorrect mass format");
+                return false;
+            }
+            return true;
+        }
+        private Fridge CreateFridge(decimal volume, int mass)
+        {
+            using (var conn = new FridgeBussinessEntities2())
+            {
+                DateOperations dop = new DateOperations();
+                return new Fridge
+                {
+                    FridgeID = fridgeID != -1 ? fridgeID : -1,
+                    Mass = mass,
+                    Volume = volume,
+                    ManufacturedOn =
+                        dop.DateParsing(ManufactureDateYYBox.Text, ManufactureDateMMBox.Text, ManufactureDateDDBox.Text),
+                    Customer = conn.Customer.FirstOrDefault(c => c.CustomerName == CustomerBox.Text).CustomerName,
+                    DeliverUntil =
+                        dop.DateParsing(DeliverYYBox.Text, DeliverMMBox.Text, DeliverDDBox.Text),
+                    DeliveringDriverPersonalCode =
+                        conn.Driver.First(d => d.FirstName + " " + d.LastName == DriverBox.Text).PersonalCode,
+                    DeliveredAt = DateTime.Today.AddDays(10),
+                    Driver = conn.Driver.First(d => d.FirstName + " " + d.LastName == DriverBox.Text)
+                };
+            }
+        }
+
+        private void SaveFridge(Fridge newFridge)
+        {
+            using (var conn = new FridgeBussinessEntities2())
+            {
+                if (fridgeID == -1)
+                {
+                    conn.Fridge.Add(newFridge);
+                    conn.SaveChanges();
+                }
+                else
+                {
+                    Fridge temp = conn.Fridge.FirstOrDefault(f => f.FridgeID == newFridge.FridgeID);
+                    conn.Fridge.Remove(temp);
+                    conn.Fridge.Add(newFridge);
+                    conn.SaveChanges();
+                }
+            }
         }
     }
 }
