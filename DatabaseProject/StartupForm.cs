@@ -44,5 +44,11 @@ namespace DatabaseProject
                 ChooseClientBox.DataSource = connection.Customer.Select(d => d.CustomerName).ToList();
             }
         }
+
+        private void CartButton_Click(object sender, EventArgs e)
+        {
+            ReviewOrderedForm orderedForm = new ReviewOrderedForm(ChooseClientBox.Text);
+            orderedForm.ShowDialog();
+        }
     }
 }

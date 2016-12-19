@@ -76,13 +76,9 @@ namespace DatabaseProject
 
         private void DeliverMMBox_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            //try
-            {
-                int currYear = short.Parse(DeliverYYBox.Text);
-                int currMonth = short.Parse(DeliverMMBox.Text);
-                DeliverDDBox.DataSource = Enumerable.Range(1, DateTime.DaysInMonth(currYear, currMonth)).ToList();
-            }
-            //catch { }
+            int currYear = short.Parse(DeliverYYBox.Text);
+            int currMonth = short.Parse(DeliverMMBox.Text);
+            DeliverDDBox.DataSource = Enumerable.Range(1, DateTime.DaysInMonth(currYear, currMonth)).ToList();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -143,7 +139,6 @@ namespace DatabaseProject
                         dop.DateParsing(DeliverYYBox.Text, DeliverMMBox.Text, DeliverDDBox.Text),
                     DeliveringDriverPersonalCode =
                         conn.Driver.First(d => d.FirstName + " " + d.LastName == DriverBox.Text).PersonalCode,
-                    DeliveredAt = DateTime.Today.AddDays(10),
                     Driver = conn.Driver.First(d => d.FirstName + " " + d.LastName == DriverBox.Text)
                 };
             }

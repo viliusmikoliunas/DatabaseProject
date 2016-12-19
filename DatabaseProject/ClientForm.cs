@@ -118,6 +118,7 @@ namespace DatabaseProject
                             int frid = (int) row["FridgeId"];
                             Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
                             connection.Fridge.Remove(toReplace);
+                            connection.SaveChanges();
                             toReplace.Customer = currentClient;
                             toReplace.DeliverUntil = DateTime.Today.AddDays(OrderToDeliverDayCount);
                             connection.Fridge.Add(toReplace);

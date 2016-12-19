@@ -114,6 +114,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReviewOrderedForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReviewOrderedForm.Designer.cs">
+      <DependentUpon>ReviewOrderedForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StartupForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ReviewOrderedForm.resx">
+      <DependentUpon>ReviewOrderedForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="StartupForm.resx">
       <DependentUpon>StartupForm.cs</DependentUpon>
     </EmbeddedResource>

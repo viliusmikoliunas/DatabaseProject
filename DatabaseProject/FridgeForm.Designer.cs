@@ -30,9 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.FridgeGridView = new System.Windows.Forms.DataGridView();
-            this.AddFridgeButton = new System.Windows.Forms.Button();
-            this.EditFridgeButton = new System.Windows.Forms.Button();
-            this.DeleteFridgeButton = new System.Windows.Forms.Button();
             this.fridgeIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.massDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.volumeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,6 +37,9 @@
             this.customerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deliverUntilDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fridgeBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.AddFridgeButton = new System.Windows.Forms.Button();
+            this.EditFridgeButton = new System.Windows.Forms.Button();
+            this.DeleteFridgeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.FridgeGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.fridgeBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -67,39 +67,9 @@
             this.FridgeGridView.RowHeadersVisible = false;
             this.FridgeGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.FridgeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.FridgeGridView.Size = new System.Drawing.Size(636, 237);
+            this.FridgeGridView.Size = new System.Drawing.Size(605, 237);
             this.FridgeGridView.TabIndex = 0;
             this.FridgeGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FridgeGridView_CellContentClick);
-            // 
-            // AddFridgeButton
-            // 
-            this.AddFridgeButton.Location = new System.Drawing.Point(642, 12);
-            this.AddFridgeButton.Name = "AddFridgeButton";
-            this.AddFridgeButton.Size = new System.Drawing.Size(132, 23);
-            this.AddFridgeButton.TabIndex = 1;
-            this.AddFridgeButton.Text = "Add new fridge";
-            this.AddFridgeButton.UseVisualStyleBackColor = true;
-            this.AddFridgeButton.Click += new System.EventHandler(this.AddFridgeButton_Click);
-            // 
-            // EditFridgeButton
-            // 
-            this.EditFridgeButton.Location = new System.Drawing.Point(642, 41);
-            this.EditFridgeButton.Name = "EditFridgeButton";
-            this.EditFridgeButton.Size = new System.Drawing.Size(132, 25);
-            this.EditFridgeButton.TabIndex = 2;
-            this.EditFridgeButton.Text = "Edit fridge";
-            this.EditFridgeButton.UseVisualStyleBackColor = true;
-            this.EditFridgeButton.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // DeleteFridgeButton
-            // 
-            this.DeleteFridgeButton.Location = new System.Drawing.Point(642, 72);
-            this.DeleteFridgeButton.Name = "DeleteFridgeButton";
-            this.DeleteFridgeButton.Size = new System.Drawing.Size(132, 23);
-            this.DeleteFridgeButton.TabIndex = 3;
-            this.DeleteFridgeButton.Text = "Delete fridge";
-            this.DeleteFridgeButton.UseVisualStyleBackColor = true;
-            this.DeleteFridgeButton.Click += new System.EventHandler(this.DeleteFridgeButton_Click);
             // 
             // fridgeIDDataGridViewTextBoxColumn
             // 
@@ -147,13 +117,43 @@
             // 
             this.fridgeBindingSource.DataSource = typeof(DatabaseProject.Fridge);
             // 
+            // AddFridgeButton
+            // 
+            this.AddFridgeButton.Location = new System.Drawing.Point(611, 12);
+            this.AddFridgeButton.Name = "AddFridgeButton";
+            this.AddFridgeButton.Size = new System.Drawing.Size(132, 23);
+            this.AddFridgeButton.TabIndex = 1;
+            this.AddFridgeButton.Text = "Add new fridge";
+            this.AddFridgeButton.UseVisualStyleBackColor = true;
+            this.AddFridgeButton.Click += new System.EventHandler(this.AddFridgeButton_Click);
+            // 
+            // EditFridgeButton
+            // 
+            this.EditFridgeButton.Location = new System.Drawing.Point(611, 41);
+            this.EditFridgeButton.Name = "EditFridgeButton";
+            this.EditFridgeButton.Size = new System.Drawing.Size(132, 25);
+            this.EditFridgeButton.TabIndex = 2;
+            this.EditFridgeButton.Text = "Edit fridge";
+            this.EditFridgeButton.UseVisualStyleBackColor = true;
+            this.EditFridgeButton.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // DeleteFridgeButton
+            // 
+            this.DeleteFridgeButton.Location = new System.Drawing.Point(611, 72);
+            this.DeleteFridgeButton.Name = "DeleteFridgeButton";
+            this.DeleteFridgeButton.Size = new System.Drawing.Size(132, 23);
+            this.DeleteFridgeButton.TabIndex = 3;
+            this.DeleteFridgeButton.Text = "Delete fridge";
+            this.DeleteFridgeButton.UseVisualStyleBackColor = true;
+            this.DeleteFridgeButton.Click += new System.EventHandler(this.DeleteFridgeButton_Click);
+            // 
             // FridgeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(780, 237);
+            this.ClientSize = new System.Drawing.Size(750, 237);
             this.Controls.Add(this.DeleteFridgeButton);
             this.Controls.Add(this.EditFridgeButton);
             this.Controls.Add(this.AddFridgeButton);

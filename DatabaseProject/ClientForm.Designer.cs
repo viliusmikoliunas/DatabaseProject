@@ -58,9 +58,9 @@
             // 
             // ChooseFridgeButton
             // 
-            this.ChooseFridgeButton.Location = new System.Drawing.Point(114, 160);
+            this.ChooseFridgeButton.Location = new System.Drawing.Point(109, 160);
             this.ChooseFridgeButton.Name = "ChooseFridgeButton";
-            this.ChooseFridgeButton.Size = new System.Drawing.Size(111, 23);
+            this.ChooseFridgeButton.Size = new System.Drawing.Size(123, 23);
             this.ChooseFridgeButton.TabIndex = 1;
             this.ChooseFridgeButton.Text = "Order Selected";
             this.ChooseFridgeButton.UseVisualStyleBackColor = true;
@@ -111,9 +111,9 @@
             // 
             // RemoveFromCartButton
             // 
-            this.RemoveFromCartButton.Location = new System.Drawing.Point(444, 160);
+            this.RemoveFromCartButton.Location = new System.Drawing.Point(566, 160);
             this.RemoveFromCartButton.Name = "RemoveFromCartButton";
-            this.RemoveFromCartButton.Size = new System.Drawing.Size(105, 23);
+            this.RemoveFromCartButton.Size = new System.Drawing.Size(100, 23);
             this.RemoveFromCartButton.TabIndex = 6;
             this.RemoveFromCartButton.Text = "Remove Selected";
             this.RemoveFromCartButton.UseVisualStyleBackColor = true;
@@ -121,9 +121,9 @@
             // 
             // PlaceOrderButton
             // 
-            this.PlaceOrderButton.Location = new System.Drawing.Point(591, 160);
+            this.PlaceOrderButton.Location = new System.Drawing.Point(440, 160);
             this.PlaceOrderButton.Name = "PlaceOrderButton";
-            this.PlaceOrderButton.Size = new System.Drawing.Size(75, 23);
+            this.PlaceOrderButton.Size = new System.Drawing.Size(120, 23);
             this.PlaceOrderButton.TabIndex = 7;
             this.PlaceOrderButton.Text = "Place Order";
             this.PlaceOrderButton.UseVisualStyleBackColor = true;

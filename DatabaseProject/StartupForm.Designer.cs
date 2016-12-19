@@ -35,11 +35,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ChooseClientBox = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.CartButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 52);
+            this.button2.Location = new System.Drawing.Point(11, 52);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(168, 48);
             this.button2.TabIndex = 1;
@@ -49,7 +50,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(11, 234);
+            this.button3.Location = new System.Drawing.Point(11, 262);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(166, 45);
             this.button3.TabIndex = 2;
@@ -91,7 +92,7 @@
             this.ChooseClientBox.FormattingEnabled = true;
             this.ChooseClientBox.Location = new System.Drawing.Point(12, 130);
             this.ChooseClientBox.Name = "ChooseClientBox";
-            this.ChooseClientBox.Size = new System.Drawing.Size(169, 21);
+            this.ChooseClientBox.Size = new System.Drawing.Size(165, 21);
             this.ChooseClientBox.TabIndex = 6;
             // 
             // label2
@@ -103,12 +104,23 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Choose Client";
             // 
+            // CartButton
+            // 
+            this.CartButton.Location = new System.Drawing.Point(11, 206);
+            this.CartButton.Name = "CartButton";
+            this.CartButton.Size = new System.Drawing.Size(166, 26);
+            this.CartButton.TabIndex = 8;
+            this.CartButton.Text = "Review ordered";
+            this.CartButton.UseVisualStyleBackColor = true;
+            this.CartButton.Click += new System.EventHandler(this.CartButton_Click);
+            // 
             // StartupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(191, 290);
+            this.ClientSize = new System.Drawing.Size(191, 319);
+            this.Controls.Add(this.CartButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.ChooseClientBox);
             this.Controls.Add(this.label1);
@@ -133,5 +145,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox ChooseClientBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button CartButton;
     }
 }
