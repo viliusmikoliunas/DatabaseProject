@@ -71,8 +71,9 @@ namespace DatabaseProject
                         DataRow newRow = newTable.NewRow();
                         newRow["FridgeId"] = car.FridgeId;
                         newRow["Client"] = car.cust;
-                        newRow["Address"] = connection.Customer.FirstOrDefault(c => c.CustomerName == car.cust).Address;
+                        newRow["Address"] = connection.Customer.Single(c => c.CustomerName == car.cust).Address;
                         newRow["DeliverUntil"] = car.until;
+                        newRow["Delivered"] = null;
                         newTable.Rows.Add(newRow);
                     }
                 }

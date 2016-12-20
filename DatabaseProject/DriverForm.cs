@@ -25,7 +25,6 @@ namespace DatabaseProject
         {
             DriverTable getTable = new DriverTable();
             driverTable = getTable.GetDriverTable(driverFullName);
-
             driverGridView.DataSource = driverTable;
         }
 
