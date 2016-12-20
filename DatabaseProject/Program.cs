@@ -18,8 +18,9 @@ namespace DatabaseProject
             Application.SetCompatibleTextRenderingDefault(false);
 
             StartupForm startup = new StartupForm();
+            DriverForm driverForm = new DriverForm();
             startup.FormBorderStyle = FormBorderStyle.FixedDialog;
-            Application.Run(startup);
+            Application.Run(driverForm);
         }
     }
 }

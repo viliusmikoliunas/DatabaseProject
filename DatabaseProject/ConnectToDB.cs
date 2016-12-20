@@ -8,29 +8,22 @@ using System.Data.SqlClient;
 
 namespace DatabaseProject
 {
-    /*
-     * fix warehouse table for warehouse purposes only
-       kiek laiko vairuotojas uztrunka nuvezti viena saldytuva
-     * 
-     */
     class ConnectToDB
     {
-        public DataTable GetTableFromDB(string selection, string location, string condition = "")
+        public DataTable GetTableFromDB(string tableName)
         {
-            string connectionStr = 
-                @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-            string command = "Select " + selection + " from " + location;
-            command = string.IsNullOrEmpty(condition) ? command : command + " " + condition;
+            string connectionStr = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=FridgeBussiness;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            SqlConnection connection = new SqlConnection(connectionStr);
+            SqlDataAdapter adapter = new SqlDataAdapter("Select * from " + tableName, connection);
             DataTable table;
-
-            using (var connection = new SqlConnection(connectionStr))
-            using (var adapter = new SqlDataAdapter(command, connection))
-            using (var set = new DataSet("TempSet"))
+            using (DataSet set = new DataSet("TempSet"))
             {
-                adapter.FillSchema(set, SchemaType.Source, location);
-                adapter.Fill(set, location);
-                table = set.Tables[location];
+                adapter.FillSchema(set, SchemaType.Source, tableName);
+                adapter.Fill(set, tableName);
+                table = set.Tables[tableName];
             }
+            connection.Close();
+            connection.Dispose();
             return table;
         }
     }
@@ -39,41 +32,45 @@ namespace DatabaseProject
     {
         public DateTime DateParsing(string yy, string mm, string dd)
         {
-            int year = int.Parse(yy);
-            int month = int.Parse(mm);
-            int day = int.Parse(dd);
+            int year = Int32.Parse(yy);
+            int month = Int32.Parse(mm);
+            int day = Int32.Parse(dd);
             return new DateTime(year, month, day);
         }
     }
 
     class DriverTable
     {
-        public DataTable GetDriverTable(string driverFullName)
+        public DataTable GenerateDataTableForDriver()
         {
-            DataTable newTable = GenerateEmptyDriverTable();
-            using (var connection = new FridgeBussinessEntities2())
+            DataTable newTable = new DataTable();
+            newTable.Columns.AddRange(new []
             {
-                var driverTable =
-                    from dd in connection.Driver
-                    join ff in connection.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
-                    select new
-                    {
-                        driver = dd.FirstName + " " + dd.LastName,
-                        FridgeId = ff.FridgeID,
-                        cust = ff.Customer,
-                        until = ff.DeliverUntil,
-                        delivered = ff.DeliveredAt
-                    };
-                foreach (var car in driverTable)
+                new DataColumn("FridgeId",typeof(int)),
+                new DataColumn("Client",typeof(string)), 
+                new DataColumn("Address",typeof(string)),
+                new DataColumn("DeliverUntil",typeof(DateTime)),
+                new DataColumn("IsDelivered",typeof(bool))
+            });
+            for (int i = 0; i < newTable.Columns.Count - 1; i++) newTable.Columns[i].ReadOnly = true;
+            using (var conn = new FridgeBussinessEntities2())
+            {
+                DataRow newnew = newTable.NewRow();
+                var driver =
+                    from dd in conn.Driver
+                    join ff in conn.Fridge on dd.PersonalCode equals ff.DeliveringDriverPersonalCode
+                    select new {drv = dd.FirstName+" "+dd.LastName, FridgeId = ff.FridgeID,
+                        cust = ff.Customer, until = ff.DeliverUntil, delivered = (ff.DeliveredAt!=null)}
+                    ;
+                foreach (var car in driver)
                 {
-                    if (car.driver.Equals(driverFullName) && car.delivered==null)
+                    if (car.drv.Equals("Vasia Jonavicius")&&!car.delivered)
                     {
                         DataRow newRow = newTable.NewRow();
-                        newRow["FridgeId"] = car.FridgeId;
-                        newRow["Client"] = car.cust;
-                        newRow["Address"] = connection.Customer.Single(c => c.CustomerName == car.cust).Address;
-                        newRow["DeliverUntil"] = car.until;
-                        newRow["Delivered"] = null;
+                        newRow[0] = car.FridgeId;
+                        newRow[1] = car.cust;
+                        newRow[2] = conn.Customer.FirstOrDefault(c => c.CustomerName == car.cust).Address;
+                        newRow[3] = car.until;
                         newTable.Rows.Add(newRow);
                     }
                 }
@@ -81,18 +78,10 @@ namespace DatabaseProject
             return newTable;
         }
 
-        private DataTable GenerateEmptyDriverTable()
+        public DataTable FillDataTable(DataTable table)
         {
-            DataTable newTable = new DataTable();
-            newTable.Columns.AddRange(new[]
-            {
-                new DataColumn("FridgeId",typeof(int)),
-                new DataColumn("Client",typeof(string)),
-                new DataColumn("Address",typeof(string)),
-                new DataColumn("DeliverUntil",typeof(DateTime)),
-                new DataColumn("Delivered",typeof(string))
-            });
-            return newTable;
+
+            return table;
         }
     }
 }

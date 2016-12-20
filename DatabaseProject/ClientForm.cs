@@ -15,8 +15,6 @@ namespace DatabaseProject
         DataTable shoppingCartTable = new DataTable();
         DataTable warehouseTable = new DataTable();
         private string currentClient;
-
-        public static int OrderToDeliverDayCount = 14;
         public ClientForm(string currentClient)
         {
             InitializeComponent();
@@ -26,7 +24,7 @@ namespace DatabaseProject
         private void ClientForm_Load(object sender, EventArgs e)
         {
             ConnectToDB cdb = new ConnectToDB();
-            warehouseTable = cdb.GetTableFromDB("Volume,Mass,ManufacturedOn,FridgeId", "Fridge", "where Customer is null");
+            warehouseTable = cdb.GetTableFromDB("Fridge where Customer is null", "Select Volume,Mass,ManufacturedOn,FridgeId from");
             WarehouseGridView.DataSource = warehouseTable;
             WarehouseGridView.Columns[WarehouseGridView.ColumnCount-1].Visible = false;
 
@@ -45,7 +43,7 @@ namespace DatabaseProject
         {
             try
             {
-                transferBetweenTables(WarehouseGridView, warehouseTable, shoppingCartTable);
+                insertNewRow(WarehouseGridView, warehouseTable, shoppingCartTable);
             }
             catch (NullReferenceException) { }
         }
@@ -54,25 +52,18 @@ namespace DatabaseProject
         {
             try
             {
-                transferBetweenTables(CartGridView, shoppingCartTable, warehouseTable);
+                insertNewRow(CartGridView, shoppingCartTable, warehouseTable);
             }
-            catch (Exception ex)
+            catch (InvalidOperationException)
             {
-                if (ex is NullReferenceException || ex is InvalidOperationException)
-                {
-                    if (CartGridView.Rows.Count > 1)
-                    {
-                        string currentFrVolume = CartGridView.CurrentRow.Cells["Volume"].Value.ToString();
-                        shoppingCartTable.Rows.Remove(shoppingCartTable.AsEnumerable().First(r => r["Volume"].ToString() == currentFrVolume));
-                    }
-                    else shoppingCartTable.Clear();
-                }
+                //delete line
             }
         }
 
-        private void transferBetweenTables(DataGridView tableView , DataTable test, DataTable table)
+        private void insertNewRow(DataGridView tableView , DataTable test, DataTable table)
         {
             string currentFridgeId = tableView.CurrentRow.Cells["FridgeId"].Value.ToString();
+
             var row = test.AsEnumerable().Single(r => r["FridgeId"].ToString() == currentFridgeId);
             test.Rows.Remove(row);
             DataRow newRow = table.NewRow();
@@ -94,9 +85,8 @@ namespace DatabaseProject
             if (CustomVolumeValue != null)
             {
                 DataRow newRow = shoppingCartTable.NewRow();
-                newRow["Volume"] = decimal.Parse(CustomVolumeValue);
+                newRow["Volume"] = Decimal.Parse(CustomVolumeValue);
                 shoppingCartTable.Rows.Add(newRow);
-                CustomVolumeValue = null;
             }
         }
         public string CustomVolumeValue { get;set;}
@@ -107,37 +97,38 @@ namespace DatabaseProject
 
         private void PlaceOrderButton_Click(object sender, EventArgs e)
         {
-            if (CartGridView.Rows.Count > 0)
+            using (var connection = new FridgeBussinessEntities2())
             {
-                using (var connection = new FridgeBussinessEntities2())
+                foreach (DataRow row in shoppingCartTable.Rows)
                 {
-                    foreach (DataRow row in shoppingCartTable.Rows)
+                    //Fridge newFridge = new Fridge
+                    //{
+                    //    FridgeID = (int)row["FridgeId"] >0 ? (int)row["FridgeId"] : -1,
+                    //    Volume = (decimal)row["Volume"],
+                    //    Mass = 10,
+                    //    //Mass = row["Mass"]!=null ? (int)row["Mass"] : new int(),
+                    //    //ManufacturedOn = row["ManufacturedOn"]!=null ? (DateTime)row["Mass"] : new DateTime()
+                    //    Customer = currentClient
+                    //};
+//                    
+                    if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
                     {
-                        if (!string.IsNullOrEmpty(row["FridgeId"].ToString()))
-                        {
-                            int frid = (int) row["FridgeId"];
-                            Fridge toReplace = connection.Fridge.First(f => f.FridgeID == frid);
-                            connection.Fridge.Remove(toReplace);
-                            connection.SaveChanges();
-                            toReplace.Customer = currentClient;
-                            toReplace.DeliverUntil = DateTime.Today.AddDays(OrderToDeliverDayCount);
-                            connection.Fridge.Add(toReplace);
-                        }
-                        else
-                        {
-                            connection.Fridge.Add(new Fridge
-                            {
-                                Volume = (decimal) row["Volume"],
-                                Customer = currentClient
-                            });
-                        }
-                        connection.SaveChanges();
+                        int frid = (int)row["FridgeId"];
+                        //connection.Fridge.Single(f => f.FridgeID == frid).Customer = currentClient;
+                        //connection.SaveChanges();
                     }
+                    else
+                    {
+                        connection.Fridge.Add(new Fridge
+                        {
+                            Volume = (decimal)row["Volume"],
+                            Customer = currentClient
+                        });
+                    }
+
+
                 }
-                MessageBox.Show("Order successful");
-                Close();
             }
-            else MessageBox.Show("The cart is empty");
         }
     }
 }

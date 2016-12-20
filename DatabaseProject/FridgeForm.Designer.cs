@@ -36,6 +36,8 @@
             this.manufacturedOnDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.customerDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.deliverUntilDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deliveredAtDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DeliveringDriverPersonalCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fridgeBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.AddFridgeButton = new System.Windows.Forms.Button();
             this.EditFridgeButton = new System.Windows.Forms.Button();
@@ -58,7 +60,9 @@
             this.volumeDataGridViewTextBoxColumn,
             this.manufacturedOnDataGridViewTextBoxColumn,
             this.customerDataGridViewTextBoxColumn,
-            this.deliverUntilDataGridViewTextBoxColumn});
+            this.deliverUntilDataGridViewTextBoxColumn,
+            this.deliveredAtDataGridViewTextBoxColumn,
+            this.DeliveringDriverPersonalCode});
             this.FridgeGridView.DataSource = this.fridgeBindingSource;
             this.FridgeGridView.Location = new System.Drawing.Point(0, 0);
             this.FridgeGridView.MultiSelect = false;
@@ -67,7 +71,7 @@
             this.FridgeGridView.RowHeadersVisible = false;
             this.FridgeGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.FridgeGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.FridgeGridView.Size = new System.Drawing.Size(605, 237);
+            this.FridgeGridView.Size = new System.Drawing.Size(804, 237);
             this.FridgeGridView.TabIndex = 0;
             this.FridgeGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FridgeGridView_CellContentClick);
             // 
@@ -113,13 +117,27 @@
             this.deliverUntilDataGridViewTextBoxColumn.Name = "deliverUntilDataGridViewTextBoxColumn";
             this.deliverUntilDataGridViewTextBoxColumn.ReadOnly = true;
             // 
+            // deliveredAtDataGridViewTextBoxColumn
+            // 
+            this.deliveredAtDataGridViewTextBoxColumn.DataPropertyName = "DeliveredAt";
+            this.deliveredAtDataGridViewTextBoxColumn.HeaderText = "DeliveredAt";
+            this.deliveredAtDataGridViewTextBoxColumn.Name = "deliveredAtDataGridViewTextBoxColumn";
+            this.deliveredAtDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // DeliveringDriverPersonalCode
+            // 
+            this.DeliveringDriverPersonalCode.DataPropertyName = "DeliveringDriverPersonalCode";
+            this.DeliveringDriverPersonalCode.HeaderText = "DeliveringDriverPersonalCode";
+            this.DeliveringDriverPersonalCode.Name = "DeliveringDriverPersonalCode";
+            this.DeliveringDriverPersonalCode.ReadOnly = true;
+            // 
             // fridgeBindingSource
             // 
             this.fridgeBindingSource.DataSource = typeof(DatabaseProject.Fridge);
             // 
             // AddFridgeButton
             // 
-            this.AddFridgeButton.Location = new System.Drawing.Point(611, 12);
+            this.AddFridgeButton.Location = new System.Drawing.Point(810, 12);
             this.AddFridgeButton.Name = "AddFridgeButton";
             this.AddFridgeButton.Size = new System.Drawing.Size(132, 23);
             this.AddFridgeButton.TabIndex = 1;
@@ -129,7 +147,7 @@
             // 
             // EditFridgeButton
             // 
-            this.EditFridgeButton.Location = new System.Drawing.Point(611, 41);
+            this.EditFridgeButton.Location = new System.Drawing.Point(810, 41);
             this.EditFridgeButton.Name = "EditFridgeButton";
             this.EditFridgeButton.Size = new System.Drawing.Size(132, 25);
             this.EditFridgeButton.TabIndex = 2;
@@ -139,7 +157,7 @@
             // 
             // DeleteFridgeButton
             // 
-            this.DeleteFridgeButton.Location = new System.Drawing.Point(611, 72);
+            this.DeleteFridgeButton.Location = new System.Drawing.Point(810, 72);
             this.DeleteFridgeButton.Name = "DeleteFridgeButton";
             this.DeleteFridgeButton.Size = new System.Drawing.Size(132, 23);
             this.DeleteFridgeButton.TabIndex = 3;
@@ -153,7 +171,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(750, 237);
+            this.ClientSize = new System.Drawing.Size(950, 237);
             this.Controls.Add(this.DeleteFridgeButton);
             this.Controls.Add(this.EditFridgeButton);
             this.Controls.Add(this.AddFridgeButton);
@@ -183,6 +201,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn manufacturedOnDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn customerDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn deliverUntilDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn deliveredAtDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DeliveringDriverPersonalCode;
     }
 }
 

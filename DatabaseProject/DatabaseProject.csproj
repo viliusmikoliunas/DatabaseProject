@@ -63,21 +63,15 @@
     <Compile Include="AddFridgeForm.Designer.cs">
       <DependentUpon>AddFridgeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClientForm.cs">
+    <Compile Include="AddVehicleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ClientForm.Designer.cs">
-      <DependentUpon>ClientForm.cs</DependentUpon>
+    <Compile Include="AddVehicleForm.Designer.cs">
+      <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="ConnectToDB.cs" />
     <Compile Include="Customer.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CustomOrderBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CustomOrderBox.Designer.cs">
-      <DependentUpon>CustomOrderBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Driver.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
@@ -114,30 +108,26 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReviewOrderedForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReviewOrderedForm.Designer.cs">
-      <DependentUpon>ReviewOrderedForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="StartupForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="StartupForm.Designer.cs">
       <DependentUpon>StartupForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ValidationClass.cs" />
     <Compile Include="Vehicle.cs">
       <DependentUpon>FridgeBussinessModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="VehiclesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VehiclesForm.Designer.cs">
+      <DependentUpon>VehiclesForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="AddFridgeForm.resx">
       <DependentUpon>AddFridgeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ClientForm.resx">
-      <DependentUpon>ClientForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomOrderBox.resx">
-      <DependentUpon>CustomOrderBox.cs</DependentUpon>
+    <EmbeddedResource Include="AddVehicleForm.resx">
+      <DependentUpon>AddVehicleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DriverForm.resx">
       <DependentUpon>DriverForm.cs</DependentUpon>
@@ -154,11 +144,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ReviewOrderedForm.resx">
-      <DependentUpon>ReviewOrderedForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="StartupForm.resx">
       <DependentUpon>StartupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VehiclesForm.resx">
+      <DependentUpon>VehiclesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EntityDeploy Include="FridgeBussinessModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

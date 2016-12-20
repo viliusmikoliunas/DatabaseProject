@@ -21,8 +21,12 @@ namespace DatabaseProject
         public void Form1_Load(object sender, EventArgs e)
         {
             ConnectToDB con = new ConnectToDB();
-            DataTable fridgeTable = con.GetTableFromDB("*","Fridge","where DeliveredAt is null and Mass <> 0");
-            FridgeGridView.DataSource = fridgeTable;
+            FridgeGridView.DataSource = con.GetTableFromDB("Fridge");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
 
         private void AddFridgeButton_Click(object sender, EventArgs e)
