@@ -16,7 +16,7 @@ namespace DatabaseProject
         DataTable warehouseTable = new DataTable();
         private string currentClient;
 
-        private const int OrderToDeliverDayCount = 14;
+        public static int OrderToDeliverDayCount = 14;
         public ClientForm(string currentClient)
         {
             InitializeComponent();
