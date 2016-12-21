@@ -27,30 +27,10 @@ namespace DatabaseProject
         {
             label.Text = currentClient;
             ConnectToDB connect = new ConnectToDB();
-            DataTable orderTable = connect.GetTableFromDB("Mass,Volume,ManufacturedOn,DeliverUntil","Fridge", string.Format("where Customer = '{0}'", currentClient));
-            orderTable.Columns.Add(new DataColumn("ExpectedDelivery"));//, typeof(DateTime)));
-            putInfo(orderTable, AverageOrderToDeliveryTime());
-            orderedGrid.DataSource = orderTable;//testinMethod(orderTable);
-            //orderedGrid.Columns["FridgeID"].Visible = false;
-        }
-        
-
-        private int AverageDeliveriesPerDay()
-        {
-            int days;
-            int fridges;
-            using (var connection = new FridgeBussinessEntities2())
-            {
-                days = connection.Fridge.Select(f => f.DeliveredAt).Distinct().Count();
-                fridges = connection.Fridge.Count();
-            }
-            return fridges/days;
-        }
-
-        private void PredictDelivery(DateTime deadline)
-        {
-            DateTime orderDateTime = deadline.Subtract(new TimeSpan(ClientForm.OrderToDeliverDayCount));
-
+            DataTable orderTable = connect.GetTableFromDB("Mass,Volume,ManufacturedOn,DeliverUntil","Fridge", string.Format("where Customer = '{0}' and DeliveredAt is null", currentClient));
+            orderTable.Columns.Add(new DataColumn("ExpectedDelivery", typeof(DateTime)));
+            fillExpectedDeliveryColumn(orderTable, AverageOrderToDeliveryTime());
+            orderedGrid.DataSource = orderTable;
         }
 
         private TimeSpan AverageOrderToDeliveryTime()
@@ -60,42 +40,43 @@ namespace DatabaseProject
             using (var connection = new FridgeBussinessEntities2())
             {
                 Fridge[] fridges = connection.Fridge.ToArray();
-                foreach (var fr in fridges)
+                foreach (var fr in fridges.Where(f=>f.DeliveredAt!=null))
                 {
-                    try
-                    {
-                        TimeSpan span = fr.DeliverUntil.Value - fr.DeliveredAt.Value;
-                        total += span + new TimeSpan(ClientForm.OrderToDeliverDayCount);
-                    }
-                    catch(InvalidOperationException) { }
+                    TimeSpan span = fr.DeliverUntil.Value - fr.DeliveredAt.Value;
+                    total += span + new TimeSpan(ClientForm.OrderToDeliverDayCount);
                 }
-                counter = connection.Fridge.Where(c=>c.DeliveredAt!=null).Count();
+                counter = connection.Fridge.Count(c => c.DeliveredAt!=null);
             }
             return new TimeSpan(total.Ticks / counter);
         }
 
-        private void putInfo(DataTable table, TimeSpan span)
+        private void fillExpectedDeliveryColumn(DataTable table, TimeSpan span)
         {
             foreach (DataRow row in table.Rows)
             {
-                row["ExpectedDelivery"] = (DateTime)row["DeliverUntil"] - span;
+                DateTime newTime = (DateTime) row["DeliverUntil"] - span;
+                if (newTime.Hour > 17) newTime = newTime.AddHours(14);
+                else if (newTime.Hour < 7)  newTime = newTime.AddHours(8);
+                newTime = newTime.AddTicks(-(newTime.Ticks % TimeSpan.TicksPerHour));//trunc minutes and seconds
+                if (newTime.DayOfWeek == DayOfWeek.Saturday || newTime.DayOfWeek == DayOfWeek.Sunday)
+                    newTime = newTime.AddDays(2);
+                row["ExpectedDelivery"] = newTime;
             }            
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        #region experiments
+        private int AverageDeliveriesPerDay()
+        {
+            int days;
+            int fridges;
+            using (var connection = new FridgeBussinessEntities2())
+            {
+                days = connection.Fridge.Select(f => f.DeliveredAt).Distinct().Count();
+                fridges = connection.Fridge.Count();
+            }
+            return fridges / days;
+        }
         private void tesstt(DataTable table)
         {
             using (var sms = new FridgeBussinessEntities2())
@@ -150,6 +131,6 @@ namespace DatabaseProject
 
             return orderTable;
         }
-
+        #endregion
     }
 }

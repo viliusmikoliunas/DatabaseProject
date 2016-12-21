@@ -73,7 +73,6 @@ namespace DatabaseProject
                         newRow["Client"] = car.cust;
                         newRow["Address"] = connection.Customer.Single(c => c.CustomerName == car.cust).Address;
                         newRow["DeliverUntil"] = car.until;
-                        newRow["Delivered"] = null;
                         newTable.Rows.Add(newRow);
                     }
                 }
